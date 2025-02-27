@@ -1,0 +1,61 @@
+curl --location 'https://newsapi.org/v2/everything?q=apple&from=2025-02-07&to=2025-02-07&sortBy=popularity&apiKey=be4ca9a66fc4426a997c4f343cbb282a'
+
+
+<?php
+//lib import
+require_once 'HTTP/Request2.php';
+//Request object
+$request = new HTTP_Request2();
+
+//set param for request News API
+$request->setUrl('https://newsapi.org/v2/everything?q=apple&from=2025-02-07&to=2025-02-07&sortBy=popularity&apiKey=be4ca9a66fc4426a997c4f343cbb282a');
+$request->setMethod(HTTP_Request2::METHOD_GET);
+$request->setConfig(array(
+  'follow_redirects' => TRUE
+));
+  $response = $request->send();
+  if ($respon
+
+
+try {se->getStatus() == 200) {
+    echo $response->getBody();
+  }
+  else {
+    echo 'Unexpected HTTP status: ' . $response->getStatus() . ' ' .
+    $response->getReasonPhrase();
+  }
+}
+catch(HTTP_Request2_Exception $e) {
+  echo 'Error: ' . $e->getMessage();
+}
+
+
+
+Search with Keywords & Phrases
+
+Search keywords or even complete phrases for relevant search results q=apple or q="Tim cook".
+Search keywords and phrases excluding certain keywords. q=cryptocurrency -bitcoin, q=cryptocurrency NOT (ethereum OR bitcoin OR tether)
+Specify words that must appear along with the ones that must not q=(gamestop AND wallstreetbets) NOT wallstreet
+Supports Boolean operator AND q= blockchain AND crypto
+Search for multiple keywords and phrases with multiple OR operators. q=ethereum OR bitcoin OR tether
+Limit your searches to headline qintitle=nft marketplace
+Example: https://newsdata.io/api/1/latest?apikey=YOUR_API_KEY&q=ethereum%20OR%20tether%20-bitcoin
+
+
+
+
+Installation
+$ composer require jcobhams/newsapi
+Usage
+use jcobhams\NewsApi\NewsApi;
+
+$newsapi = new NewsApi($your_api_key);
+
+# /v2/everything
+$all_articles = $newsapi->getEverything($q, $sources, $domains, $exclude_domains, $from, $to, $language, $sort_by,  $page_size, $page);
+
+# /v2/top-headlines
+$top_headlines = $newsapi->getTopHeadlines($q, $sources, $country, $category, $page_size, $page);
+
+# /v2/top-headlines/sources
+$sources = $newsapi->getSources($category, $language, $country)
