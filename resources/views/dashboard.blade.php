@@ -8,7 +8,9 @@
     </div>
     @endif
 
-    <h1 class="text-3xl font-bold mb-8 text-gray-800">Choose News Category</h1>
+    <br><br>
+
+    {{-- <h1 class="text-3xl font-bold mb-8 text-gray-800">Choose News Category</h1> --}}
     
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         @foreach($categories as $category)

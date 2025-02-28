@@ -30,10 +30,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/news/{category}', [NewsController::class, 'index'])
         ->name('news.category')
         ->where('category', 'general|business|entertainment|health|science|sports|technology');
-      
-
-    Route::resource('sources', SourceController::class);
-    
+         
     // Profile routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

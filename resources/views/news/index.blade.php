@@ -6,29 +6,43 @@
     <div class="mb-8 overflow-x-auto scrollbar-hide">
         <div class="flex space-x-4 pb-2">
             @foreach($allCategories as $cat)
-                <a href="{{ route('news.category', ['category' => $cat]) }}" 
-                   class="px-4 py-2 min-w-max rounded-lg text-sm font-medium transition-colors
-                          {{ $currentCategory === $cat ? 
-                             'bg-blue-600 text-white shadow-md' : 
-                             'bg-gray-100 text-gray-700 hover:bg-gray-200' }}">
-                    {{ ucfirst($cat) }}
-                </a>
+            <a href="{{ route('news.category', ['category' => $cat]) }}" 
+                style="
+                    padding: 0.5rem 1rem; /* px-4 py-2 */
+                    min-width: max-content; /* min-w-max */
+                    border-radius: 0.5rem; /* rounded-lg */
+                    font-size: 1.2rem; /* text-sm */
+                    font-weight: 500; /* font-medium */
+                    transition: all 0.2s; /* transition-colors */
+                    {{ $currentCategory === $cat ? 
+                       ' color: #2563EB; font-size: 1.425rem; font-weight: 700; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);' : 
+                       'background-color: #F3F4F6; color: #374151;' }}
+                    {{ $currentCategory !== $cat ? '&:hover { background-color: #E5E7EB; }' : '' }}">
+                 {{ ucfirst($cat) }}
+             </a>
             @endforeach
         </div>
     </div>
+    <br>
 
     <!-- Page Title -->
-    <h1 class="text-3xl font-bold mb-6 text-gray-800">
-        {{ ucfirst($currentCategory) }} News
-    </h1>
+    <h1 style="
+    font-size: 1.875rem; /* text-3xl */
+    font-weight: 700; /* font-bold */
+    margin-bottom: 1.5rem; /* mb-6 */
+    color: #1F2937; /* text-gray-800 */
+    text-align: center; /* Center the text */
+">
+    {{ ucfirst($currentCategory) }} News
+</h1>
 
     <!-- News Grid -->
     @if(count($articles) > 0)
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         @foreach($articles as $article)
-            <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+            <div class="bg-white rounded-l-sm overflow-hidden shadow-lg hover:shadow-xl transition-shadow" style="border-radius: 26px;">
                 <div class="relative aspect-video">
-                    <img src="{{ $article['urlToImage'] ?? asset('images/news-placeholder.jpg') }}" 
+                    <img src="{{ $article['urlToImage'] ?? asset('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1tmKD2vGqY8MvaftlsaCBnty3HbCawgCK2w&s') }}" 
                          class="w-full h-full object-cover"
                          alt="{{ $article['title'] ?? 'News image' }}">
                 </div>
@@ -37,7 +51,7 @@
                     <h2 class="text-xl font-semibold mb-2 text-gray-800">
                         {{ Str::limit($article['title'] ?? 'No title available', 70) }}
                     </h2>
-                    <p class="text-gray-600 mb-4 text-sm">
+                    <p class="text-gray-600 mb-4 text-lg">
                         {{ Str::limit($article['description'] ?? 'No description available', 120) }}
                     </p>
                     <div class="flex justify-between items-center text-sm">
