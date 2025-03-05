@@ -12,6 +12,32 @@ class NewsController extends Controller
         'health', 'science', 'sports', 'technology'
     ];
 
+    // Add this method to NewsController
+    public function welcome()
+    {
+        $category = 'general'; // Default category for welcome page
+        
+        // Fetch from NewsAPI (same logic as index method)
+        $apiKey = config('services.newsapi.key');
+        $response = Http::get("https://newsapi.org/v2/top-headlines", [
+            'category' => $category,
+            'country' => 'us',
+            'apiKey' => $apiKey,
+            'pageSize' => 6 // Show fewer articles for welcome page
+        ]);
+
+        $articles = [];
+        if ($response->successful()) {
+            $newsData = $response->json();
+            $articles = $newsData['articles'] ?? [];
+        }
+
+        return view('welcome', [
+            'articles' => $articles,
+            'categories' => $this->validCategories
+        ]);
+    }
+
     public function dashboard()
     {
         return view('dashboard', [

@@ -5,33 +5,21 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SocialAuthController;
 use App\Http\Controllers\NewsController;
 
-// Public routes (accessible without authentication)
-Route::get('/', function () {
-    return view('welcome');
-});
+// Public routes (accessible to everyone)
+Route::get('/', [NewsController::class, 'welcome'])->name('welcome');
+Route::get('/dashboard', [NewsController::class, 'dashboard'])->name('dashboard');
+Route::get('/news/{category}', [NewsController::class, 'index'])
+    ->name('news.category')
+    ->where('category', 'general|business|entertainment|health|science|sports|technology');
 
-Route::redirect('/', '/dashboard')->middleware('auth');
-
-
-
-// Social login routes
+// Social login routes (optional, if you're using social authentication)
 Route::get('login/{provider}', [SocialAuthController::class, 'redirectToProvider'])
     ->name('social.login');
 Route::get('login/{provider}/callback', [SocialAuthController::class, 'handleProviderCallback'])
     ->name('social.callback');
 
-// Protected routes (require authentication)
+// Protected profile routes (only for authenticated users)
 Route::middleware('auth')->group(function () {
-   
-    // Dashboard
-    Route::get('/dashboard', action: [NewsController::class, 'dashboard'])->name('dashboard');
-    
-    // Category news
-    Route::get('/news/{category}', [NewsController::class, 'index'])
-        ->name('news.category')
-        ->where('category', 'general|business|entertainment|health|science|sports|technology');
-         
-    // Profile routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
