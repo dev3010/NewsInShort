@@ -6,11 +6,15 @@ use App\Http\Controllers\SocialAuthController;
 use App\Http\Controllers\NewsController;
 
 // Public routes (accessible without authentication)
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/', function () {
+    return view('welcome');
+});
 
 // routes/web.php
+Route::redirect('/', '/welcome'); // Redirect root URL to welcome page
+Route::get('/welcome', function () {
+    return view('welcome');
+})->name('welcome');
 
 
 // Default route (homepage)
