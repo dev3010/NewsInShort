@@ -14,9 +14,12 @@ class NewsController extends Controller
 
     public function dashboard()
     {
-        return view('dashboard', [
-            'categories' => $this->validCategories
-        ]);
+        return $this->index('general');
+    }
+
+    public function welcome()
+    {
+        return $this->index('general');
     }
 
     public function index($category = 'general')

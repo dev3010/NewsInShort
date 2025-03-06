@@ -6,13 +6,17 @@ use App\Http\Controllers\SocialAuthController;
 use App\Http\Controllers\NewsController;
 
 // Public routes (accessible without authentication)
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
-Route::redirect('/', '/dashboard')->middleware('auth');
+// routes/web.php
 
 
+// Default route (homepage)
+Route::get('/', [NewsController::class, 'index'])->name('home');
+
+//Route::redirect('/', '/dashboard');
 
 // Social login routes
 Route::get('login/{provider}', [SocialAuthController::class, 'redirectToProvider'])
@@ -20,17 +24,16 @@ Route::get('login/{provider}', [SocialAuthController::class, 'redirectToProvider
 Route::get('login/{provider}/callback', [SocialAuthController::class, 'handleProviderCallback'])
     ->name('social.callback');
 
+// Dashboard (public route)
+Route::get('/dashboard', [NewsController::class, 'dashboard'])->name('dashboard');
+
+// Category news (public route)
+Route::get('/news/{category}', [NewsController::class, 'index'])
+    ->name('news.category')
+    ->where('category', 'general|business|entertainment|health|science|sports|technology');
+
 // Protected routes (require authentication)
 Route::middleware('auth')->group(function () {
-   
-    // Dashboard
-    Route::get('/dashboard', action: [NewsController::class, 'dashboard'])->name('dashboard');
-    
-    // Category news
-    Route::get('/news/{category}', [NewsController::class, 'index'])
-        ->name('news.category')
-        ->where('category', 'general|business|entertainment|health|science|sports|technology');
-         
     // Profile routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
