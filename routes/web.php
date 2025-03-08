@@ -8,6 +8,7 @@ use App\Http\Middleware\TestMiddleware;
 use App\Http\Middleware\EnsureUserIsAdmin;
 use App\Http\Controllers\NewsController;
 
+Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 // Welcome page
 Route::get('/', [NewsController::class, 'welcome'])->name('home');
 
